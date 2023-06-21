@@ -44,8 +44,8 @@ function initColors() {
 function newRandomColor() {
   let hue = random(360); // Generate a random hue value
   let saturation = random(50, 255); // Generate a random saturation value within a pastel range
-  let brightness = random(70, 90); // Generate a random brightness value within a pastel range
-  let alpha = 123;
+  let brightness = random(70, 255); // Generate a random brightness value within a pastel range
+  let alpha = 255;
   let ringColor = color(hue, saturation, brightness, alpha); // Create a color object with the generated values
 
   return ringColor;
@@ -64,7 +64,7 @@ function drawRings() {
     let innerDiameter = innerRadius * 2 - overlap; // Calculate diameter
 
     noStroke(); // Disable stroke for rings
-
+    stroke(1);
     // let mixTarget = map(mouseX, 0, width, 0.0, 1.0);
     // mix = mix + (mixTarget - mix) * easing;
 
