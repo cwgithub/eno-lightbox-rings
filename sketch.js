@@ -35,7 +35,7 @@ function mousePressed() {
 function initRings() {
   // Ring stuff
   numRings = random(3, 7); // Number of concentric rings
-  largestRadius = height / 2 - ringYOffset; // Radius of the largest ring
+  largestRadius = min(height, width) / 2 - ringYOffset; // Radius of the largest ring
   overlap = 0; // Amount of overlap between rings
   centerX = width / 2; // X-coordinate of the center
   centerY = height / 2; // Y-coordinate of the center
