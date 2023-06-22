@@ -2,8 +2,7 @@ let hue1, hue2;
 let saturation1, saturation2;
 let brightness1, brightness2;
 let alpha1, alpha2;
-let ringColor1, ringColor2;
-let centreColor1, centreColor2;
+
 let easing = 0.05; // 1.0 to 0
 let mix = 0;
 let mixTarget = 0;
@@ -15,6 +14,10 @@ let largestRadius;
 let overlap;
 let centerX;
 let centerY;
+
+let ringColor1, ringColor2;
+let centreColor1, centreColor2;
+let backgroundColor1, backgroundColor2;
 
 function setup() {
   createCanvas(560, 560); // Adjust the canvas size as per your needs
@@ -68,7 +71,7 @@ function drawRings() {
     let innerDiameter = innerRadius * 2 + overlap; // Calculate diameter
 
     noStroke(); // Disable stroke for rings
-    stroke(1);
+    // stroke(1);
 
     let fillColor;
 
@@ -107,7 +110,7 @@ function draw() {
   // frameRate(2);
 
   // mix += 0.0005;
-  mix += 0.01;
+  mix += 0.001;
 
   if (mix > 1.0) {
     rotateColors();
