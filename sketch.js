@@ -30,7 +30,7 @@ function initRings() {
   numRings = 2; // Number of concentric rings
   ringWidth = 60; // Width of each ring
   largestRadius = 230; // Radius of the largest ring
-  overlap = 4; // Amount of overlap between rings
+  overlap = 10; // Amount of overlap between rings
   centerX = width / 2; // X-coordinate of the center
   centerY = height / 2; // Y-coordinate of the center
 }
@@ -49,9 +49,9 @@ function initColors() {
 
 function newRandomColor() {
   let hue = random(360); // Generate a random hue value
-  let saturation = random(50, 255); // Generate a random saturation value within a pastel range
-  let brightness = random(70, 255); // Generate a random brightness value within a pastel range
-  let alpha = 255;
+  let saturation = random(100, 180); // Generate a random saturation value within a pastel range
+  let brightness = random(200, 255); // Generate a random brightness value within a pastel range
+  let alpha = random(200, 255);
   let ringColor = color(hue, saturation, brightness, alpha); // Create a color object with the generated values
 
   return ringColor;
@@ -68,7 +68,7 @@ function drawRings() {
     let outerDiameter = outerRadius * 2; // Calculate diameter
 
     let innerRadius = outerRadius - ringWidth; // Calculate radius for each ring
-    let innerDiameter = innerRadius * 2 + overlap; // Calculate diameter
+    let innerDiameter = innerRadius * 2 - overlap; // Calculate diameter
 
     noStroke(); // Disable stroke for rings
     // stroke(1);
@@ -107,8 +107,6 @@ function rotateColors() {
 }
 
 function draw() {
-  // frameRate(2);
-
   // mix += 0.0005;
   mix += 0.001;
 
@@ -118,6 +116,4 @@ function draw() {
   }
 
   drawRings();
-
-  // noLoop();
 }
