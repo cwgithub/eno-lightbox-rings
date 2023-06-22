@@ -23,10 +23,10 @@ function setup() {
 
 function initRings() {
   // Ring stuff
-  numRings = 3; // Number of concentric rings
-  ringWidth = 50; // Width of each ring
-  largestRadius = 250; // Radius of the largest ring
-  overlap = 10; // Amount of overlap between rings
+  numRings = 2; // Number of concentric rings
+  ringWidth = 60; // Width of each ring
+  largestRadius = 230; // Radius of the largest ring
+  overlap = 4; // Amount of overlap between rings
   centerX = width / 2; // X-coordinate of the center
   centerY = height / 2; // Y-coordinate of the center
 }
@@ -61,7 +61,7 @@ function drawRings() {
     let outerDiameter = outerRadius * 2; // Calculate diameter
 
     let innerRadius = outerRadius - ringWidth; // Calculate radius for each ring
-    let innerDiameter = innerRadius * 2 - overlap; // Calculate diameter
+    let innerDiameter = innerRadius * 2 + overlap; // Calculate diameter
 
     noStroke(); // Disable stroke for rings
     stroke(1);
@@ -92,7 +92,7 @@ function rotateColors() {
 function draw() {
   // frameRate(2);
 
-  mix += 0.005;
+  mix += 0.0005;
 
   if (mix > 1.0) {
     rotateColors();
