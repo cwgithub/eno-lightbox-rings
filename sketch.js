@@ -20,9 +20,13 @@ let centreColor1, centreColor2;
 let backgroundColor1, backgroundColor2;
 
 function setup() {
-  createCanvas(560, 560); // Adjust the canvas size as per your needs
+  createCanvas(windowWidth, windowHeight);
   initRings();
   initColors();
+}
+
+function mousePressed() {
+  fullscreen(!fullscreen());
 }
 
 function initRings() {
