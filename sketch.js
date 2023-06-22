@@ -71,7 +71,9 @@ function drawRings() {
     let innerDiameter = innerRadius * 2 - overlap; // Calculate diameter
 
     noStroke(); // Disable stroke for rings
-    // stroke(1);
+
+    stroke(255, 255, 255, 50);
+    strokeWeight(3);
 
     let fillColor;
 
