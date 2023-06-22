@@ -3,6 +3,7 @@ let saturation1, saturation2;
 let brightness1, brightness2;
 let alpha1, alpha2;
 let ringColor1, ringColor2;
+let centreColor1, centreColor2;
 let easing = 0.05; // 1.0 to 0
 let mix = 0;
 let mixTarget = 0;
@@ -33,12 +34,14 @@ function initRings() {
 
 function initColors() {
   // Color stuff
-
   ringColor1 = newRandomColor();
   ringColor2 = newRandomColor();
 
-  // ringColor1 = color("#8F28A1"); // warm purple color
-  //ringColor2 = color("#3BEDB7"); // mint green color
+  centreColor1 = newRandomColor();
+  centreColor2 = newRandomColor();
+
+  backgroundColor1 = newRandomColor();
+  backgroundColor2 = newRandomColor();
 }
 
 function newRandomColor() {
@@ -52,7 +55,8 @@ function newRandomColor() {
 }
 
 function drawRings() {
-  let backgroundColor = 236;
+  let backgroundColor = lerpColor(backgroundColor1, backgroundColor2, mix);
+
   background(backgroundColor); // Set the background color
 
   // Draw the concentric rings
@@ -65,13 +69,17 @@ function drawRings() {
 
     noStroke(); // Disable stroke for rings
     stroke(1);
-    // let mixTarget = map(mouseX, 0, width, 0.0, 1.0);
-    // mix = mix + (mixTarget - mix) * easing;
 
-    dynamicColor = lerpColor(ringColor1, ringColor2, mix);
-    // console.log(dynamicColor.levels);
+    let fillColor;
+
+    if (i === 0) {
+      fillColor = lerpColor(ringColor1, ringColor2, mix);
+    } else {
+      fillColor = lerpColor(centreColor1, centreColor2, mix);
+    }
+
     console.log(mix);
-    fill(dynamicColor); // Set fill color to the generated pastel color
+    fill(fillColor); // Set fill color to the generated pastel color
 
     // Draw each ring
     ellipse(centerX, centerY, outerDiameter, outerDiameter);
@@ -87,12 +95,19 @@ function drawRings() {
 function rotateColors() {
   ringColor1 = ringColor2;
   ringColor2 = newRandomColor();
+
+  centreColor1 = centreColor2;
+  centreColor2 = newRandomColor();
+
+  backgroundColor1 = backgroundColor2;
+  backgroundColor2 = newRandomColor();
 }
 
 function draw() {
   // frameRate(2);
 
-  mix += 0.0005;
+  // mix += 0.0005;
+  mix += 0.01;
 
   if (mix > 1.0) {
     rotateColors();
