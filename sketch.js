@@ -68,6 +68,11 @@ function mousePressed() {
   // fullscreen(!fullscreen());
 }
 
+function touchStarted() {
+  alert("Touch detected");
+  playSound();
+}
+
 function initRings() {
   // Ring stuff
   numRings = 3; // Number of concentric rings
