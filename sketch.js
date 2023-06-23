@@ -65,12 +65,12 @@ function preload() {
 
 function mousePressed() {
   playSound();
-  // fullscreen(!fullscreen());
+  fullscreen(!fullscreen());
 }
 
 function touchStarted() {
-  alert("Touch detected");
   playSound();
+  fullscreen(!fullscreen());
 }
 
 function initRings() {
@@ -196,14 +196,6 @@ function setNextPlayTime() {
   const interval = random(1000, 5000);
   nextPlayTime = millis() + interval;
 }
-
-// function playSound() {
-//   // Check if the sound file is loaded successfully
-//   if (soundFile.isLoaded()) {
-//     // Play the sound file
-//     soundFile.play();
-//   }
-// }
 
 function playSound() {
   if (floor(random(0, 2)) === 0) {
