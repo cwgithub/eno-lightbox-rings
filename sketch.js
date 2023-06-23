@@ -22,14 +22,50 @@ let ringColor2 = [];
 let centreColor1, centreColor2;
 let backgroundColor1, backgroundColor2;
 
+let pianoSounds = [];
+let sineSounds = [];
+let droneSounds = [];
+let soundFile;
+let nextPlayTime;
+
 function setup() {
+  // Set the initial next play time
+  setNextPlayTime();
   createCanvas(windowWidth, windowHeight);
   initRings();
   initColors();
 }
 
+function preload() {
+  for (let i = 1; i < 9; i++) {
+    if (i > 1) {
+      pianoSounds.push(
+        loadSound(`assets/Thursday-Afternoon-Samples/Samples/piano${i}.wav`)
+      );
+
+      if (i < 4) {
+        droneSounds.push(
+          loadSound(
+            `assets/Thursday-Afternoon-Samples/Samples/thursday-drone-${i}.wav`
+          )
+        );
+      }
+
+      sineSounds.push(
+        loadSound(`assets/Thursday-Afternoon-Samples/Samples/sine${i}.wav`)
+      );
+    }
+  }
+
+  // Load the sound file from the assets folder
+  soundFile = loadSound(
+    "assets/Thursday-Afternoon-Samples/Samples/piano2.wav "
+  );
+}
+
 function mousePressed() {
-  fullscreen(!fullscreen());
+  playSound();
+  // fullscreen(!fullscreen());
 }
 
 function initRings() {
@@ -142,4 +178,46 @@ function draw() {
   }
 
   drawRings();
+
+  // Check if it's time to play the sound
+  if (millis() >= nextPlayTime) {
+    playSound();
+    setNextPlayTime(); // Set the next play time
+  }
+}
+
+function setNextPlayTime() {
+  // Set a random interval between 1 and 5 seconds
+  const interval = random(1000, 5000);
+  nextPlayTime = millis() + interval;
+}
+
+// function playSound() {
+//   // Check if the sound file is loaded successfully
+//   if (soundFile.isLoaded()) {
+//     // Play the sound file
+//     soundFile.play();
+//   }
+// }
+
+function playSound() {
+  if (floor(random(0, 2)) === 0) {
+    let pIdx = floor(random(2, 8));
+    if (pianoSounds[pIdx] && pianoSounds[pIdx].isLoaded()) {
+      // Play the sound file
+      pianoSounds[pIdx].play();
+    }
+  } else {
+    let sIdx = floor(random(1, 8));
+    if (sineSounds[sIdx] && sineSounds[sIdx].isLoaded()) {
+      // Play the sound file
+      sineSounds[sIdx].play();
+    }
+  }
+
+  // let dIdx = floor(random(1, 3));
+  // if (droneSounds[dIdx].isLoaded()) {
+  //   // Play the sound file
+  //   droneSounds[dIdx].play();
+  // }
 }
