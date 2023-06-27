@@ -4,10 +4,12 @@ let saturation1, saturation2;
 let brightness1, brightness2;
 let alpha1, alpha2;
 
-let easing = 0.05; // 1.0 to 0
 let mix = 0;
-let mixTarget = 0;
-let dynamicColor;
+let easing = 0.0005; // 1.0 to 0
+
+let mixBackground = 0;
+let easingBackground = 0.000005;
+
 // Ring stuff
 let numRings;
 let ringWidth;
@@ -85,23 +87,31 @@ function initRings() {
 
 function initColors() {
   // Color stuff
-
   for (let i = 0; i < numRings - 1; i++) {
     ringColor1.push(newRandomColor());
     ringColor2.push(newRandomColor());
   }
-
   centreColor1 = newRandomColor();
   centreColor2 = newRandomColor();
 
-  backgroundColor1 = newRandomColor();
-  backgroundColor2 = newRandomColor();
+  backgroundColor1 = newRandomBackgroundColor();
+  backgroundColor2 = newRandomBackgroundColor();
 }
 
 function newRandomColor() {
-  let hue = random(360); // Generate a random hue value
-  let saturation = random(100, 180); // Generate a random saturation value within a pastel range
-  let brightness = random(200, 255); // Generate a random brightness value within a pastel range
+  let hue = random(360);
+  let saturation = random(80, 100);
+  let brightness = random(200, 255);
+  let alpha = random(0, 255);
+  let ringColor = color(hue, saturation, brightness, alpha); // Create a color object with the generated values
+
+  return ringColor;
+}
+
+function newRandomBackgroundColor() {
+  let hue = random(60, 90);
+  let saturation = random(100, 180);
+  let brightness = random(200, 255);
   let alpha = random(0, 255);
   let ringColor = color(hue, saturation, brightness, alpha); // Create a color object with the generated values
 
@@ -109,7 +119,11 @@ function newRandomColor() {
 }
 
 function drawRings() {
-  let backgroundColor = lerpColor(backgroundColor1, backgroundColor2, mix);
+  let backgroundColor = lerpColor(
+    backgroundColor1,
+    backgroundColor2,
+    mixBackground
+  );
   background(backgroundColor); // Set the background color
 
   // Draw the concentric rings
@@ -167,19 +181,27 @@ function rotateColors() {
 
   centreColor1 = centreColor2;
   centreColor2 = newRandomColor();
+}
 
+function rotateBackgroundColor() {
   backgroundColor1 = backgroundColor2;
-  backgroundColor2 = newRandomColor();
+  backgroundColor2 = newRandomBackgroundColor();
 }
 
 function draw() {
   // mix += 0.0005;
-  mix += 0.001; // acceptable speed
   // mix += 0.01; // fast changes for debugging
 
+  mix += easing; // acceptable speed
   if (mix > 1.0) {
     rotateColors();
     mix = 0;
+  }
+
+  mixBackground += easingBackground;
+  if (mixBackground > 1.0) {
+    rotateBackgroundColor();
+    mixBackground = 0;
   }
 
   drawRings();
@@ -198,11 +220,15 @@ function setNextPlayTime() {
 }
 
 function playSound() {
-  if (floor(random(0, 2)) === 0) {
-    let pIdx = floor(random(2, 8));
-    if (pianoSounds[pIdx] && pianoSounds[pIdx].isLoaded()) {
-      // Play the sound file
-      pianoSounds[pIdx].play();
+  if (floor(random(0, 3)) === 0) {
+    let noteCount = floor(random(3));
+
+    for (let notes = 0; notes < noteCount; notes++) {
+      let pIdx = floor(random(2, 8));
+      if (pianoSounds[pIdx] && pianoSounds[pIdx].isLoaded()) {
+        // Play the sound file
+        pianoSounds[pIdx].play();
+      }
     }
   } else {
     let sIdx = floor(random(1, 8));
