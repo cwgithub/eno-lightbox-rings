@@ -14,7 +14,7 @@ let centerX;
 let centerY;
 let touched = false;
 let showText = true;
-let promptText = "[v6 - mp3] Click to start sounds ... ";
+let promptText = "[v7 - audio] Click to start sounds ... ";
 
 // Colors
 let ringStartColor = [];
@@ -37,13 +37,27 @@ function setup() {
   initColors();
 }
 
+function myLoadSoundXX(path) {
+  return loadSound(path);
+}
+
+function myLoadSound(path) {
+  let sound = new Audio(path);
+  sound.mozPreservesPitch = false;
+  sound.preservesPitch = false;
+  sound.volume = 0.2; // Reduced volume to avoid clipping
+  sound.playbackRate = 1.0; // this.pitch;
+  // s.play();
+  return sound;
+}
+
 function preload() {
   for (let i = 1; i < 9; i++) {
     if (i > 1) {
-      pianoSounds.push(loadSound(`${soundFolder}/piano${i}.mp3`));
+      pianoSounds.push(myLoadSound(`${soundFolder}/piano${i}.mp3`));
       // if (i < 4) {
       //   droneSounds.push(
-      //     loadSound(
+      //     myLoadSound(
       //       `assets/Thursday-Afternoon-Samples/Samples/thursday-drone-${i}.wav`
       //     )
       //   );
@@ -51,7 +65,7 @@ function preload() {
     }
 
     if (i < 6) {
-      sineSounds.push(loadSound(`${soundFolder}/sine${i}.mp3`));
+      sineSounds.push(myLoadSound(`${soundFolder}/sine${i}.mp3`));
     }
   }
 }
@@ -237,7 +251,7 @@ function draw() {
 
 function setNextPlayTime() {
   // Set a random interval between 1 and 5 seconds
-  const interval = random(1000, 5000);
+  const interval = random(500, 3700);
   nextPlayTime = millis() + interval;
 }
 
@@ -247,14 +261,16 @@ function playSound() {
 
     for (let notes = 0; notes < noteCount; notes++) {
       let pIdx = floor(random(2, 8));
-      if (pianoSounds[pIdx] && pianoSounds[pIdx].isLoaded()) {
+      // if (pianoSounds[pIdx] && pianoSounds[pIdx].isLoaded()) {
+      if (pianoSounds[pIdx]) {
         // Play the sound file
         pianoSounds[pIdx].play();
       }
     }
   } else {
     let sIdx = floor(random(1, 8));
-    if (sineSounds[sIdx] && sineSounds[sIdx].isLoaded()) {
+    // if (sineSounds[sIdx] && sineSounds[sIdx].isLoaded()) {
+    if (sineSounds[sIdx]) {
       // Play the sound file
       sineSounds[sIdx].play();
     }
