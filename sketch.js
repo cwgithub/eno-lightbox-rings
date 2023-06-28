@@ -14,7 +14,7 @@ let centerX;
 let centerY;
 let touched = false;
 let showText = true;
-let promptText = "[v9] Click to start sounds ... ";
+let promptText = "[v10] Click to start sounds ... ";
 // Colors
 let ringStartColor = [];
 let ringEndColor = [];
@@ -140,14 +140,15 @@ function myLoadSoundXX(path) {
 }
 
 function myLoadSound(path) {
-  let sound = new Audio(path);
-  sound.mozPreservesPitch = false;
-  sound.preservesPitch = false;
-  sound.volume = 0.2; // Reduced volume to avoid clipping
-  sound.playbackRate = 1.0; // this.pitch;
+  let audio = new Audio(path);
+  audio.mozPreservesPitch = false;
+  audio.preservesPitch = false;
+  audio.volume = 0.2; // Reduced volume to avoid clipping
+  audio.playbackRate = 1.0; // this.pitch;
   // sound.loop = true;
   // s.play();
-  return sound;
+  audio.autoplay = true;
+  return audio;
 }
 
 function preload() {
