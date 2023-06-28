@@ -14,7 +14,7 @@ let centerX;
 let centerY;
 let touched = false;
 let showText = true;
-let promptText = "[v3] Click to start sounds ... ";
+let promptText = "[v4] Click to start sounds ... ";
 
 // Colors
 let ringStartColor = [];
