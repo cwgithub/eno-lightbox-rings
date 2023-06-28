@@ -41,7 +41,6 @@ function preload() {
   for (let i = 1; i < 9; i++) {
     if (i > 1) {
       pianoSounds.push(loadSound(`${soundFolder}/piano${i}.mp3`));
-      sineSounds.push(loadSound(`${soundFolder}/sine${i}.mp3`));
       // if (i < 4) {
       //   droneSounds.push(
       //     loadSound(
@@ -49,6 +48,10 @@ function preload() {
       //     )
       //   );
       // }
+    }
+
+    if (i < 6) {
+      sineSounds.push(loadSound(`${soundFolder}/sine${i}.mp3`));
     }
   }
 }
