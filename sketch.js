@@ -12,8 +12,9 @@ let largestRadius;
 let overlap;
 let centerX;
 let centerY;
-
+let touched = false;
 let showText = true;
+let promptText = "Click to start sounds ...";
 
 // Colors
 let ringStartColor = [];
@@ -73,7 +74,12 @@ function mousePressed() {
 }
 
 function touchStarted() {
-  showText = false;
+  // showText = false;
+
+  touched = true;
+
+  promptText = "I have changed";
+
   playSound();
   if (!fullscreen()) {
     fullscreen(true);
@@ -230,7 +236,7 @@ function draw() {
     textAlign(CENTER, CENTER);
     fill(0); // Set text color to black
     textSize(24);
-    text("Click to start sounds ...", width / 2, height / 2);
+    text(promptText, width / 2, height / 2);
     endShape();
   }
 }
