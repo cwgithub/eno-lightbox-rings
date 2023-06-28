@@ -14,7 +14,7 @@ let centerX;
 let centerY;
 let touched = false;
 let showText = true;
-let promptText = "[v4] Click to start sounds ... ";
+let promptText = "[v5] Click to start sounds ... ";
 
 // Colors
 let ringStartColor = [];
@@ -74,10 +74,9 @@ function mousePressed() {
 }
 
 function touchStarted() {
-  // showText = false;
+  showText = false;
 
   touched = true;
-
   if (touched) {
     promptText = "I should be fullscreen!";
   }
