@@ -270,6 +270,7 @@ function playSound() {
 /* full screening will change the size of the canvas */
 function windowResized() {
   resizeCanvas(windowWidth, windowHeight);
+  initRings();
 }
 
 /* prevents the mobile browser from processing some default
