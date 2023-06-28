@@ -74,13 +74,16 @@ function mousePressed() {
 }
 
 function touchStarted() {
-  // showText = false;
+  showText = false;
 
   touched = true;
 
+  if (touched) {
+    promptText = "I should be fullscreen!";
+  }
+
   playSound();
   if (!fullscreen()) {
-    promptText = "I should be fullscreen!";
     fullscreen(true);
   }
 }
