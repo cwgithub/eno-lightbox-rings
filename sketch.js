@@ -1,9 +1,9 @@
 let outerShapeMargin = 45;
 
 let shapesColorMix = 0;
-let shapesColorEasing = 0.0005; // 1.0 to 0
+let shapesColorEasing = 0.0007; // 1.0 to 0
 let backgroundColorMix = 0;
-let backgroundColorEasing = 0.000005;
+let backgroundColorEasing = 0.000008;
 
 // Ring stuff
 let numRings;
