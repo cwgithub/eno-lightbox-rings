@@ -78,10 +78,9 @@ function touchStarted() {
 
   touched = true;
 
-  promptText = "I have changed";
-
   playSound();
   if (!fullscreen()) {
+    promptText = "I should be fullscreen!";
     fullscreen(true);
   }
 }
