@@ -12,9 +12,8 @@ let largestRadius;
 let overlap;
 let centerX;
 let centerY;
-let touched = false;
 let showText = true;
-let promptText = "[v10] Click to start sounds ... ";
+let promptText = "[v11] Click to start sounds ... ";
 // Colors
 let ringStartColor = [];
 let ringEndColor = [];
@@ -130,10 +129,7 @@ function setup() {
   createCanvas(windowWidth, windowHeight);
   initRings();
   initColors();
-  initScheduler();
 }
-
-function initScheduler() {}
 
 function myLoadSoundXX(path) {
   return loadSound(path);
@@ -152,13 +148,19 @@ function myLoadSound(path) {
 }
 
 function preload() {
+  // soundScheduler.forEach(
+  //   (item) => (item.audio = myLoadSound(`${soundFolder}/${item.file}`))
+  // );
+}
+
+function createAudioObjects() {
   soundScheduler.forEach(
     (item) => (item.audio = myLoadSound(`${soundFolder}/${item.file}`))
   );
 }
-
 function mousePressed() {
   if (showText) {
+    createAudioObjects();
     launchSoundLoops();
     if (!fullscreen()) {
       fullscreen(true);
@@ -168,16 +170,14 @@ function mousePressed() {
 }
 
 function touchStarted() {
-  showText = false;
+  if (showText) {
+    createAudioObjects();
+    launchSoundLoops();
+    if (!fullscreen()) {
+      fullscreen(true);
+    }
+    showText = false;
 
-  touched = true;
-  if (touched) {
-    promptText = "I should be fullscreen!";
-  }
-
-  playSoundOrig();
-  if (!fullscreen()) {
-    fullscreen(true);
     document.documentElement.requestFullscreen();
   }
 }
