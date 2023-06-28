@@ -13,7 +13,7 @@ let overlap;
 let centerX;
 let centerY;
 let showText = true;
-let promptText = "[v11] Click to start sounds ... ";
+let promptText = "[v12] Click to start sounds ... ";
 // Colors
 let ringStartColor = [];
 let ringEndColor = [];
@@ -171,15 +171,14 @@ function mousePressed() {
 
 function touchStarted() {
   if (showText) {
+    showText = false;
     createAudioObjects();
     launchSoundLoops();
     if (!fullscreen()) {
       fullscreen(true);
     }
-    showText = false;
-
-    document.documentElement.requestFullscreen();
   }
+  document.documentElement.requestFullscreen();
 }
 
 function initRings() {
