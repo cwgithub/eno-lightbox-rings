@@ -27,6 +27,7 @@ let pianoSounds = [];
 let sineSounds = [];
 // let droneSounds = [];
 let nextPlayTime;
+let soundFolder = "`assets/Thursday-Afternoon-Samples/Samples/mp3/web";
 
 function setup() {
   // Set the initial next play time
@@ -39,10 +40,8 @@ function setup() {
 function preload() {
   for (let i = 1; i < 9; i++) {
     if (i > 1) {
-      pianoSounds.push(
-        loadSound(`assets/Thursday-Afternoon-Samples/Samples/mp3/piano${i}.mp3`)
-      );
-
+      pianoSounds.push(loadSound(`${soundFolder}/piano${i}.mp3`));
+      sineSounds.push(loadSound(`${soundFolder}/sine${i}.mp3`));
       // if (i < 4) {
       //   droneSounds.push(
       //     loadSound(
@@ -50,10 +49,6 @@ function preload() {
       //     )
       //   );
       // }
-
-      sineSounds.push(
-        loadSound(`assets/Thursday-Afternoon-Samples/Samples/mp3/sine${i}.mp3`)
-      );
     }
   }
 }
