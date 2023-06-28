@@ -14,7 +14,106 @@ let centerX;
 let centerY;
 let touched = false;
 let showText = true;
-let promptText = "[v7] Click to start sounds ... ";
+let promptText = "[v8 - sound scheduler] Click to start sounds ... ";
+
+let soundScheduler = [
+  // ==========================================================================
+  // piano sounds
+  // ==========================================================================
+  {
+    file: "piano/b2-36.mp3",
+    interval: 36,
+    nextPlay: undefined,
+    audio: undefined,
+  },
+  {
+    file: "piano/b3-16.mp3",
+    interval: 16,
+    nextPlay: undefined,
+    audio: undefined,
+  },
+  {
+    file: "piano/c4-23.mp3",
+    interval: 23,
+    nextPlay: undefined,
+    audio: undefined,
+  },
+  {
+    file: "piano/d3-15.mp3",
+    interval: 15,
+    nextPlay: undefined,
+    audio: undefined,
+  },
+  {
+    file: "piano/d4-60.mp3",
+    interval: 60,
+    nextPlay: undefined,
+    audio: undefined,
+  },
+  {
+    file: "piano/f3-21.mp3",
+    interval: 21,
+    nextPlay: undefined,
+    audio: undefined,
+  },
+  {
+    file: "piano/g3-15.mp3",
+    interval: 15,
+    nextPlay: undefined,
+    audio: undefined,
+  },
+  // ==========================================================================
+  // synth sounds
+  // ==========================================================================
+  {
+    file: "synth/b2-16.mp3",
+    interval: 16,
+    nextPlay: undefined,
+    audio: undefined,
+  },
+  {
+    file: "synth/b3-18.mp3",
+    interval: 18,
+    nextPlay: undefined,
+    audio: undefined,
+  },
+  {
+    file: "synth/c4-19.mp3",
+    interval: 19,
+    nextPlay: undefined,
+    audio: undefined,
+  },
+  {
+    file: "synth/d3-31.mp3",
+    interval: 31,
+    nextPlay: undefined,
+    audio: undefined,
+  },
+  {
+    file: "synth/d4-20.mp3",
+    interval: 20,
+    nextPlay: undefined,
+    audio: undefined,
+  },
+  {
+    file: "synth/f3-21.mp3",
+    interval: 21,
+    nextPlay: undefined,
+    audio: undefined,
+  },
+  {
+    file: "synth/g2-36.mp3",
+    interval: 36,
+    nextPlay: undefined,
+    audio: undefined,
+  },
+  {
+    file: "synth/g3-15.mp3",
+    interval: 15,
+    nextPlay: undefined,
+    audio: undefined,
+  },
+];
 
 // Colors
 let ringStartColor = [];
@@ -35,7 +134,10 @@ function setup() {
   createCanvas(windowWidth, windowHeight);
   initRings();
   initColors();
+  initScheduler();
 }
+
+function initScheduler() {}
 
 function myLoadSoundXX(path) {
   return loadSound(path);
@@ -47,32 +149,38 @@ function myLoadSound(path) {
   sound.preservesPitch = false;
   sound.volume = 0.2; // Reduced volume to avoid clipping
   sound.playbackRate = 1.0; // this.pitch;
+  sound.loop = true;
   // s.play();
   return sound;
 }
 
 function preload() {
-  for (let i = 1; i < 9; i++) {
-    if (i > 1) {
-      pianoSounds.push(myLoadSound(`${soundFolder}/piano${i}.mp3`));
-      // if (i < 4) {
-      //   droneSounds.push(
-      //     myLoadSound(
-      //       `assets/Thursday-Afternoon-Samples/Samples/thursday-drone-${i}.wav`
-      //     )
-      //   );
-      // }
-    }
+  soundScheduler.forEach(
+    (item) => (item.audio = myLoadSound(`${soundFolder}/${item.file}`))
+  );
 
-    if (i < 6) {
-      sineSounds.push(myLoadSound(`${soundFolder}/sine${i}.mp3`));
-    }
-  }
+  // for (let i = 1; i < 9; i++) {
+  //   if (i > 1) {
+  //     pianoSounds.push(myLoadSound(`${soundFolder}/piano${i}.mp3`));
+  //     // if (i < 4) {
+  //     //   droneSounds.push(
+  //     //     myLoadSound(
+  //     //       `assets/Thursday-Afternoon-Samples/Samples/thursday-drone-${i}.wav`
+  //     //     )
+  //     //   );
+  //     // }
+  //   }
+
+  //   if (i < 6) {
+  //     sineSounds.push(myLoadSound(`${soundFolder}/sine${i}.mp3`));
+  //   }
+  // }
 }
 
 function mousePressed() {
   showText = false;
-  playSound();
+  // playSound();
+  launchSoundLoops();
 
   if (!fullscreen()) {
     fullscreen(true);
@@ -235,7 +343,7 @@ function draw() {
 
   // Check if it's time to play the sound
   if (millis() >= nextPlayTime) {
-    playSound();
+    // playSound();
     setNextPlayTime(); // Set the next play time
   }
 
@@ -255,17 +363,20 @@ function setNextPlayTime() {
   nextPlayTime = millis() + interval;
 }
 
+function launchSoundLoops() {
+  soundScheduler.forEach((item) => {
+    // console.log(loop.duration;
+    item.audio.play();
+  });
+}
+
 function playSound() {
   if (floor(random(0, 3)) === 0) {
-    let noteCount = floor(random(3));
-
-    for (let notes = 0; notes < noteCount; notes++) {
-      let pIdx = floor(random(2, 8));
-      // if (pianoSounds[pIdx] && pianoSounds[pIdx].isLoaded()) {
-      if (pianoSounds[pIdx]) {
-        // Play the sound file
-        pianoSounds[pIdx].play();
-      }
+    let pIdx = floor(random(2, 8));
+    // if (pianoSounds[pIdx] && pianoSounds[pIdx].isLoaded()) {
+    if (pianoSounds[pIdx]) {
+      // Play the sound file
+      pianoSounds[pIdx].play();
     }
   } else {
     let sIdx = floor(random(1, 8));
