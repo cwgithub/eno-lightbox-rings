@@ -27,7 +27,7 @@ let pianoSounds = [];
 let sineSounds = [];
 // let droneSounds = [];
 let nextPlayTime;
-let soundFolder = "`assets/Thursday-Afternoon-Samples/Samples/mp3/web";
+let soundFolder = "assets/Thursday-Afternoon-Samples/Samples/mp3/web";
 
 function setup() {
   // Set the initial next play time
