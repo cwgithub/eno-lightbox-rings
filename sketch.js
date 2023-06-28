@@ -25,7 +25,7 @@ let backgroundStartColor, backgroundEndColor;
 // Sounds/Samples
 let pianoSounds = [];
 let sineSounds = [];
-let droneSounds = [];
+// let droneSounds = [];
 let soundFile;
 let nextPlayTime;
 
@@ -44,13 +44,13 @@ function preload() {
         loadSound(`assets/Thursday-Afternoon-Samples/Samples/piano${i}.wav`)
       );
 
-      if (i < 4) {
-        droneSounds.push(
-          loadSound(
-            `assets/Thursday-Afternoon-Samples/Samples/thursday-drone-${i}.wav`
-          )
-        );
-      }
+      // if (i < 4) {
+      //   droneSounds.push(
+      //     loadSound(
+      //       `assets/Thursday-Afternoon-Samples/Samples/thursday-drone-${i}.wav`
+      //     )
+      //   );
+      // }
 
       sineSounds.push(
         loadSound(`assets/Thursday-Afternoon-Samples/Samples/sine${i}.wav`)
