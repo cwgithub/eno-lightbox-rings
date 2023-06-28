@@ -1,14 +1,9 @@
-let hue1, hue2;
-let ringYOffset = 45;
-let saturation1, saturation2;
-let brightness1, brightness2;
-let alpha1, alpha2;
+let outerShapeMargin = 45;
 
-let mix = 0;
-let easing = 0.0005; // 1.0 to 0
-
-let mixBackground = 0;
-let easingBackground = 0.000005;
+let shapesColorMix = 0;
+let shapesColorEasing = 0.0005; // 1.0 to 0
+let backgroundColorMix = 0;
+let backgroundColorEasing = 0.000005;
 
 // Ring stuff
 let numRings;
@@ -18,12 +13,15 @@ let overlap;
 let centerX;
 let centerY;
 
-let ringColor1 = [];
-let ringColor2 = [];
+let showText = true;
 
-let centreColor1, centreColor2;
-let backgroundColor1, backgroundColor2;
+// Colors
+let ringStartColor = [];
+let ringEndColor = [];
+let centreStartColor, centreEndColor;
+let backgroundStartColor, backgroundEndColor;
 
+// Sounds/Samples
 let pianoSounds = [];
 let sineSounds = [];
 let droneSounds = [];
@@ -66,19 +64,26 @@ function preload() {
 }
 
 function mousePressed() {
+  showText = false;
   playSound();
-  fullscreen(!fullscreen());
+
+  if (!fullscreen()) {
+    fullscreen(true);
+  }
 }
 
 function touchStarted() {
+  showText = false;
   playSound();
-  fullscreen(!fullscreen());
+  if (!fullscreen()) {
+    fullscreen(true);
+  }
 }
 
 function initRings() {
   // Ring stuff
   numRings = 3; // Number of concentric rings
-  largestRadius = min(height, width) / 2 - ringYOffset; // Radius of the largest ring
+  largestRadius = min(height, width) / 2 - outerShapeMargin; // Radius of the largest ring
   overlap = 0; // Amount of overlap between rings
   centerX = width / 2; // X-coordinate of the center
   centerY = height / 2; // Y-coordinate of the center
@@ -88,14 +93,14 @@ function initRings() {
 function initColors() {
   // Color stuff
   for (let i = 0; i < numRings - 1; i++) {
-    ringColor1.push(newRandomColor());
-    ringColor2.push(newRandomColor());
+    ringStartColor.push(newRandomColor());
+    ringEndColor.push(newRandomColor());
   }
-  centreColor1 = newRandomColor();
-  centreColor2 = newRandomColor();
+  centreStartColor = newRandomColor();
+  centreEndColor = newRandomColor();
 
-  backgroundColor1 = newRandomBackgroundColor();
-  backgroundColor2 = newRandomBackgroundColor();
+  backgroundStartColor = newRandomBackgroundColor();
+  backgroundEndColor = newRandomBackgroundColor();
 }
 
 function newRandomColor() {
@@ -109,7 +114,7 @@ function newRandomColor() {
 }
 
 function newRandomBackgroundColor() {
-  let hue = random(60, 90);
+  let hue = random(160, 190);
   let saturation = random(100, 180);
   let brightness = random(200, 255);
   let alpha = random(0, 255);
@@ -120,9 +125,9 @@ function newRandomBackgroundColor() {
 
 function drawRings() {
   let backgroundColor = lerpColor(
-    backgroundColor1,
-    backgroundColor2,
-    mixBackground
+    backgroundStartColor,
+    backgroundEndColor,
+    backgroundColorMix
   );
   background(backgroundColor); // Set the background color
 
@@ -131,10 +136,18 @@ function drawRings() {
     let outerRadius = largestRadius - i * ringWidth; // Calculate radius for each ring
 
     if (i < numRings - 1) {
-      let ringColor = lerpColor(ringColor1[i], ringColor2[i], mix);
+      let ringColor = lerpColor(
+        ringStartColor[i],
+        ringEndColor[i],
+        shapesColorMix
+      );
       drawRing(outerRadius, ringColor, backgroundColor);
     } else {
-      let circleColor = lerpColor(centreColor1, centreColor2, mix);
+      let circleColor = lerpColor(
+        centreStartColor,
+        centreEndColor,
+        shapesColorMix
+      );
       drawCircle(outerRadius, circleColor);
     }
   }
@@ -175,33 +188,33 @@ function drawCircle(outerRadius, circleColor) {
 
 function rotateColors() {
   for (let i = 0; i < numRings; i++) {
-    ringColor1[i] = ringColor2[i];
-    ringColor2[i] = newRandomColor();
+    ringStartColor[i] = ringEndColor[i];
+    ringEndColor[i] = newRandomColor();
   }
 
-  centreColor1 = centreColor2;
-  centreColor2 = newRandomColor();
+  centreStartColor = centreEndColor;
+  centreEndColor = newRandomColor();
 }
 
 function rotateBackgroundColor() {
-  backgroundColor1 = backgroundColor2;
-  backgroundColor2 = newRandomBackgroundColor();
+  backgroundStartColor = backgroundEndColor;
+  backgroundEndColor = newRandomBackgroundColor();
 }
 
 function draw() {
   // mix += 0.0005;
   // mix += 0.01; // fast changes for debugging
 
-  mix += easing; // acceptable speed
-  if (mix > 1.0) {
+  shapesColorMix += shapesColorEasing; // acceptable speed
+  if (shapesColorMix > 1.0) {
     rotateColors();
-    mix = 0;
+    shapesColorMix = 0;
   }
 
-  mixBackground += easingBackground;
-  if (mixBackground > 1.0) {
+  backgroundColorMix += backgroundColorEasing;
+  if (backgroundColorMix > 1.0) {
     rotateBackgroundColor();
-    mixBackground = 0;
+    backgroundColorMix = 0;
   }
 
   drawRings();
@@ -210,6 +223,15 @@ function draw() {
   if (millis() >= nextPlayTime) {
     playSound();
     setNextPlayTime(); // Set the next play time
+  }
+
+  if (showText) {
+    beginShape();
+    textAlign(CENTER, CENTER);
+    fill(0); // Set text color to black
+    textSize(24);
+    text("Click to start sounds ...", width / 2, height / 2);
+    endShape();
   }
 }
 
