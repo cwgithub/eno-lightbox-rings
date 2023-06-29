@@ -13,7 +13,7 @@ let overlap;
 let centerX;
 let centerY;
 let showText = true;
-let promptText = "[v12] Click to start sounds ... ";
+let promptText = "[v13] Click to start sounds ... ";
 // Colors
 let ringStartColor = [];
 let ringEndColor = [];
@@ -205,9 +205,9 @@ function initColors() {
 }
 
 function newRandomColor() {
-  let hue = random(360);
+  let hue = random(0, 360);
   let saturation = random(80, 100);
-  let brightness = random(200, 255);
+  let brightness = random(80, 100);
   let alpha = random(0, 255);
   let ringColor = color(hue, saturation, brightness, alpha); // Create a color object with the generated values
 
@@ -215,10 +215,10 @@ function newRandomColor() {
 }
 
 function newRandomBackgroundColor() {
-  let hue = random(160, 190);
+  let hue = random(0, 360);
   let saturation = random(100, 180);
   let brightness = random(220, 255);
-  let alpha = random(0, 255);
+  let alpha = random(48, 64);
   let ringColor = color(hue, saturation, brightness, alpha); // Create a color object with the generated values
 
   return ringColor;
