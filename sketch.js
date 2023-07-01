@@ -185,7 +185,7 @@ function initRings() {
   // Ring stuff
   numRings = 3; // Number of concentric rings
   largestRadius = min(height, width) / 2 - outerShapeMargin; // Radius of the largest ring
-  overlap = 0; // Amount of overlap between rings
+  overlap = 5; // Amount of overlap between rings
   centerX = width / 2; // X-coordinate of the center
   centerY = height / 2; // Y-coordinate of the center
   ringWidth = largestRadius / numRings; // Width of each ring
@@ -261,15 +261,28 @@ function drawRing(outerRadius, ringColor, ringBackgroundColor) {
 
   beginShape();
   noStroke();
-  stroke(255, 255, 255, 45);
-  strokeWeight(overlap);
 
   fill(ringColor); // Set fill color to the generated pastel color
   ellipse(centerX, centerY, outerDiameter, outerDiameter);
 
+  // draw the "inner ring" filled with the canvas background color
   fill(ringBackgroundColor); // Set fill color to the background color
   ellipse(centerX, centerY, innerDiameter, innerDiameter);
 
+  endShape();
+
+  // draw the light "glow" around the outside of the ring
+  beginShape();
+  noFill();
+  stroke(225, 225, 225, 3);
+
+  let outlines = 12;
+
+  for (let outline = 0; outline < outlines; outline += 2) {
+    strokeWeight(outline);
+
+    ellipse(centerX, centerY, outerDiameter + outline, outerDiameter + outline);
+  }
   endShape();
 }
 
@@ -278,8 +291,8 @@ function drawCircle(outerRadius, circleColor) {
 
   beginShape();
   noStroke();
-  stroke(255, 255, 255, 45);
-  strokeWeight(overlap);
+  // stroke(255, 255, 255, 45);
+  // strokeWeight(overlap);
 
   fill(circleColor); // Set fill color to the generated pastel color
   ellipse(centerX, centerY, outerDiameter, outerDiameter);
@@ -343,8 +356,6 @@ function launchSoundLoops() {
 }
 
 function scheduleSound(item) {
-  // item.audio.play();
-
   let soundPlayer = new SoundPlayer(item.audio, item.interval);
   soundPlayer.startPlaying();
 }
