@@ -194,24 +194,31 @@ function initRings() {
 function initColors() {
   // Color stuff
   for (let i = 0; i < numRings - 1; i++) {
-    ringStartColor.push(newRandomColor());
-    ringEndColor.push(newRandomColor());
+    ringStartColor.push(newRandomRingColor());
+    ringEndColor.push(newRandomRingColor());
   }
-  centreStartColor = newRandomColor();
-  centreEndColor = newRandomColor();
+  centreStartColor = newRandomCentreColor();
+  centreEndColor = newRandomCentreColor();
 
   backgroundStartColor = newRandomBackgroundColor();
   backgroundEndColor = newRandomBackgroundColor();
 }
 
-function newRandomColor() {
+function newRandomRingColor() {
   let hue = random(0, 360);
   let saturation = random(80, 100);
-  let brightness = random(80, 100);
+  let brightness = random(90, 100);
   let alpha = random(0, 255);
   let ringColor = color(hue, saturation, brightness, alpha); // Create a color object with the generated values
-
   return ringColor;
+}
+
+function newRandomCentreColor() {
+  let hue = random(0, 360);
+  let saturation = random(0, 100);
+  let brightness = 100; // random(90, 100);
+  let alpha = random(200, 255);
+  return color(hue, saturation, brightness, alpha); // Create a color object with the generated values
 }
 
 function newRandomBackgroundColor() {
@@ -220,7 +227,6 @@ function newRandomBackgroundColor() {
   let brightness = random(220, 255);
   let alpha = random(48, 64);
   let ringColor = color(hue, saturation, brightness, alpha); // Create a color object with the generated values
-
   return ringColor;
 }
 
@@ -274,10 +280,9 @@ function drawRing(outerRadius, ringColor, ringBackgroundColor) {
   // draw the light "glow" around the outside of the ring
   beginShape();
   noFill();
-  stroke(225, 225, 225, 3);
 
+  stroke(225, 225, 255, 3);
   let outlines = 12;
-
   for (let outline = 0; outline < outlines; outline += 2) {
     strokeWeight(outline);
 
@@ -298,16 +303,28 @@ function drawCircle(outerRadius, circleColor) {
   ellipse(centerX, centerY, outerDiameter, outerDiameter);
 
   endShape();
+
+  beginShape();
+  noFill();
+
+  stroke(225, 225, 200, 3);
+  let outlines = 12;
+  for (let outline = 0; outline < outlines; outline += 2) {
+    strokeWeight(outline);
+
+    ellipse(centerX, centerY, outerDiameter + outline, outerDiameter + outline);
+  }
+  endShape();
 }
 
 function rotateColors() {
   for (let i = 0; i < numRings; i++) {
     ringStartColor[i] = ringEndColor[i];
-    ringEndColor[i] = newRandomColor();
+    ringEndColor[i] = newRandomRingColor();
   }
 
   centreStartColor = centreEndColor;
-  centreEndColor = newRandomColor();
+  centreEndColor = newRandomCentreColor();
 }
 
 function rotateBackgroundColor() {
