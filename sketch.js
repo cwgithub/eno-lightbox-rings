@@ -223,25 +223,7 @@ function drawRing(outerRadius, color, backgroundColor) {
   let innerRadius = outerRadius - ringWidth; // Calculate radius for each ring
   let innerDiameter = innerRadius * 2; // Calculate diameter
 
-  // ==========================================================================
-  // the glow
-  // ==========================================================================
-
-  // draw the light "glow" around the outside of the ring
-  beginShape();
-  colorMode(RGB);
-  noFill();
-  // let h = ringColor.levels[0];
-  let b = color.levels[2];
-  // console.log(b);
-
-  stroke(225, 225, 255, 7);
-  let outlines = 50 * (b / 255);
-  for (let outline = 0; outline < outlines; outline += 2) {
-    strokeWeight(outline);
-    ellipse(centerX, centerY, outerDiameter + outline, outerDiameter + outline);
-  }
-  endShape();
+  drawGlow(outerDiameter, color);
 
   // ==========================================================================
   // the ring
@@ -259,25 +241,7 @@ function drawRing(outerRadius, color, backgroundColor) {
 function drawCircle(outerRadius, color) {
   let outerDiameter = outerRadius * 2; // Calculate diameter
 
-  // ==========================================================================
-  // the glow
-  // ==========================================================================
-
-  // draw the light "glow" around the outside of the ring
-  beginShape();
-  colorMode(RGB);
-  noFill();
-  // let h = ringColor.levels[0];
-  let b = color.levels[2];
-  // console.log(b);
-
-  stroke(225, 225, 255, 7);
-  let outlines = 50 * (b / 255);
-  for (let outline = 0; outline < outlines; outline += 2) {
-    strokeWeight(outline);
-    ellipse(centerX, centerY, outerDiameter + outline, outerDiameter + outline);
-  }
-  endShape();
+  drawGlow(outerDiameter, color);
 
   beginShape();
   noStroke();
@@ -289,6 +253,32 @@ function drawCircle(outerRadius, color) {
 
   beginShape();
   noFill();
+}
+
+function drawGlow(outerDiameter, color) {
+  // ==========================================================================
+  // the glow
+  // ==========================================================================
+  // draw the light "glow" around the outside of the ring
+  beginShape();
+  let h = color.levels[0];
+  let s = color.levels[1];
+  let b = color.levels[2];
+
+  colorMode(RGB);
+  noFill();
+
+  let scaler = (s / 100) * (b / 100);
+
+  stroke(225, 225, 255, 7);
+  let outlines = 20 * scaler;
+  for (let outline = 0; outline < outlines; outline += 2) {
+    strokeWeight(outline);
+    ellipse(centerX, centerY, outerDiameter + outline, outerDiameter + outline);
+  }
+  colorMode(HSB);
+
+  endShape();
 }
 
 function rotateColors() {
