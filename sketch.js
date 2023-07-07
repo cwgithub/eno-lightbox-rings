@@ -218,7 +218,7 @@ function drawShapes() {
   }
 }
 
-function drawRing(outerRadius, ringColor, ringBackgroundColor) {
+function drawRing(outerRadius, color, backgroundColor) {
   let outerDiameter = outerRadius * 2; // Calculate diameter
   let innerRadius = outerRadius - ringWidth; // Calculate radius for each ring
   let innerDiameter = innerRadius * 2; // Calculate diameter
@@ -231,12 +231,13 @@ function drawRing(outerRadius, ringColor, ringBackgroundColor) {
   beginShape();
   colorMode(RGB);
   noFill();
-  let h = ringColor.levels[0];
-  let b = ringColor.levels[2];
+  // let h = ringColor.levels[0];
+  let b = color.levels[2];
+  // console.log(b);
 
   stroke(225, 225, 255, 7);
-  let outlines = 20; // * (100 / b);
-  for (let outline = 0; outline < outlines; outline += 1) {
+  let outlines = 50 * (b / 255);
+  for (let outline = 0; outline < outlines; outline += 2) {
     strokeWeight(outline);
     ellipse(centerX, centerY, outerDiameter + outline, outerDiameter + outline);
   }
@@ -247,10 +248,10 @@ function drawRing(outerRadius, ringColor, ringBackgroundColor) {
   // ==========================================================================
   beginShape();
   noStroke();
-  fill(ringColor); // Set fill color to the generated pastel color
+  fill(color); // Set fill color to the generated pastel color
   ellipse(centerX, centerY, outerDiameter, outerDiameter);
   // draw the "inner ring" filled with the canvas background color
-  fill(ringBackgroundColor); // Set fill color to the background color
+  fill(backgroundColor); // Set fill color to the background color
   ellipse(centerX, centerY, innerDiameter, innerDiameter);
   endShape();
 }
@@ -267,11 +268,12 @@ function drawCircle(outerRadius, color) {
   colorMode(RGB);
   noFill();
   // let h = ringColor.levels[0];
-  // let b = ringColor.levels[2];
+  let b = color.levels[2];
+  // console.log(b);
 
   stroke(225, 225, 255, 7);
-  let outlines = 20; // * (100 / b);
-  for (let outline = 0; outline < outlines; outline += 1) {
+  let outlines = 50 * (b / 255);
+  for (let outline = 0; outline < outlines; outline += 2) {
     strokeWeight(outline);
     ellipse(centerX, centerY, outerDiameter + outline, outerDiameter + outline);
   }
