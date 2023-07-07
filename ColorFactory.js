@@ -3,7 +3,7 @@ class ColorFactory {
     let hue = random(0, 360);
     let saturation = random(80, 100);
     let brightness = random(90, 100);
-    let alpha = random(0, 255);
+    let alpha = random(0, 180);
     let ringColor = color(hue, saturation, brightness, alpha); // Create a color object with the generated values
     return ringColor;
   }
