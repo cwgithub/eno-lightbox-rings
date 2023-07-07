@@ -32,7 +32,3 @@ class SoundPlayer {
     }
   }
 }
-
-// Usage example
-// const soundPlayer = new SoundPlayer("sound.mp3");
-// soundPlayer.startPlaying();

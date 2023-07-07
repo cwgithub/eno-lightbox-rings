@@ -26,6 +26,8 @@ let sineSounds = [];
 let nextPlayTime;
 let soundFolder = "assets/Thursday-Afternoon-Samples/Samples/wav";
 
+let colorFactory = new ColorFactory();
+
 let soundScheduler = [
   // ==========================================================================
   // piano sounds
@@ -126,6 +128,7 @@ let soundScheduler = [
 ];
 
 function setup() {
+  colorMode(HSB);
   createCanvas(windowWidth, windowHeight);
   initRings();
   initColors();
@@ -194,43 +197,18 @@ function initRings() {
 function initColors() {
   // Color stuff
   for (let i = 0; i < numRings - 1; i++) {
-    ringStartColor.push(newRandomRingColor());
-    ringEndColor.push(newRandomRingColor());
+    ringStartColor.push(colorFactory.newRandomRingColor());
+    ringEndColor.push(colorFactory.newRandomRingColor());
   }
-  centreStartColor = newRandomCentreColor();
-  centreEndColor = newRandomCentreColor();
 
-  backgroundStartColor = newRandomBackgroundColor();
-  backgroundEndColor = newRandomBackgroundColor();
+  centreStartColor = colorFactory.newRandomCentreColor();
+  centreEndColor = colorFactory.newRandomCentreColor();
+
+  backgroundStartColor = colorFactory.newRandomBackgroundColor();
+  backgroundEndColor = colorFactory.newRandomBackgroundColor();
 }
 
-function newRandomRingColor() {
-  let hue = random(0, 360);
-  let saturation = random(80, 100);
-  let brightness = random(90, 100);
-  let alpha = random(0, 255);
-  let ringColor = color(hue, saturation, brightness, alpha); // Create a color object with the generated values
-  return ringColor;
-}
-
-function newRandomCentreColor() {
-  let hue = random(0, 360);
-  let saturation = random(0, 100);
-  let brightness = 100; // random(90, 100);
-  let alpha = random(200, 255);
-  return color(hue, saturation, brightness, alpha); // Create a color object with the generated values
-}
-
-function newRandomBackgroundColor() {
-  let hue = random(0, 360);
-  let saturation = random(100, 180);
-  let brightness = random(220, 255);
-  let alpha = random(48, 64);
-  let ringColor = color(hue, saturation, brightness, alpha); // Create a color object with the generated values
-  return ringColor;
-}
-
-function drawRings() {
+function drawShapes() {
   let backgroundColor = lerpColor(
     backgroundStartColor,
     backgroundEndColor,
@@ -250,12 +228,12 @@ function drawRings() {
       );
       drawRing(outerRadius, ringColor, backgroundColor);
     } else {
-      let circleColor = lerpColor(
+      let centreColor = lerpColor(
         centreStartColor,
         centreEndColor,
         shapesColorMix
       );
-      drawCircle(outerRadius, circleColor);
+      drawCircle(outerRadius, centreColor);
     }
   }
 }
@@ -265,71 +243,71 @@ function drawRing(outerRadius, ringColor, ringBackgroundColor) {
   let innerRadius = outerRadius - ringWidth; // Calculate radius for each ring
   let innerDiameter = innerRadius * 2; // Calculate diameter
 
-  beginShape();
-  noStroke();
-
-  fill(ringColor); // Set fill color to the generated pastel color
-  ellipse(centerX, centerY, outerDiameter, outerDiameter);
-
-  // draw the "inner ring" filled with the canvas background color
-  fill(ringBackgroundColor); // Set fill color to the background color
-  ellipse(centerX, centerY, innerDiameter, innerDiameter);
-
-  endShape();
-
+  // the glow
   // draw the light "glow" around the outside of the ring
   beginShape();
   noFill();
 
-  stroke(225, 225, 255, 3);
-  let outlines = 12;
-  for (let outline = 0; outline < outlines; outline += 2) {
-    strokeWeight(outline);
+  let h = ringColor.levels[0];
+  let b = ringColor.levels[2];
 
-    ellipse(centerX, centerY, outerDiameter + outline, outerDiameter + outline);
-  }
+  // stroke(h, 100, b, 4);
+  // // stroke(225, 225, 200, 3);
+  // let outlines = 12; // * (100 / b);
+  // for (let outline = 0; outline < outlines; outline += 2) {
+  //   strokeWeight(outline);
+  //   ellipse(centerX, centerY, outerDiameter + outline, outerDiameter + outline);
+  // }
+  // endShape();
+
+  // the ring
+
+  beginShape();
+  noStroke();
+  fill(ringColor); // Set fill color to the generated pastel color
+  ellipse(centerX, centerY, outerDiameter, outerDiameter);
+  // draw the "inner ring" filled with the canvas background color
+  fill(ringBackgroundColor); // Set fill color to the background color
+  ellipse(centerX, centerY, innerDiameter, innerDiameter);
   endShape();
 }
 
-function drawCircle(outerRadius, circleColor) {
+function drawCircle(outerRadius, color) {
   let outerDiameter = outerRadius * 2; // Calculate diameter
 
   beginShape();
   noStroke();
   // stroke(255, 255, 255, 45);
   // strokeWeight(overlap);
-
-  fill(circleColor); // Set fill color to the generated pastel color
+  fill(color); // Set fill color to the generated pastel color
   ellipse(centerX, centerY, outerDiameter, outerDiameter);
-
   endShape();
 
   beginShape();
   noFill();
 
-  stroke(225, 225, 200, 3);
-  let outlines = 12;
-  for (let outline = 0; outline < outlines; outline += 2) {
-    strokeWeight(outline);
-
-    ellipse(centerX, centerY, outerDiameter + outline, outerDiameter + outline);
-  }
-  endShape();
+  // stroke(0, 100, 100, 3);
+  // let outlines = 12;
+  // for (let outline = 0; outline < outlines; outline += 2) {
+  //   strokeWeight(outline);
+  //   ellipse(centerX, centerY, outerDiameter + outline, outerDiameter + outline);
+  // }
+  // endShape();
 }
 
 function rotateColors() {
   for (let i = 0; i < numRings; i++) {
     ringStartColor[i] = ringEndColor[i];
-    ringEndColor[i] = newRandomRingColor();
+    ringEndColor[i] = colorFactory.newRandomRingColor();
   }
 
   centreStartColor = centreEndColor;
-  centreEndColor = newRandomCentreColor();
+  centreEndColor = colorFactory.newRandomCentreColor();
 }
 
 function rotateBackgroundColor() {
   backgroundStartColor = backgroundEndColor;
-  backgroundEndColor = newRandomBackgroundColor();
+  backgroundEndColor = colorFactory.newRandomBackgroundColor();
 }
 
 function draw() {
@@ -348,7 +326,7 @@ function draw() {
     backgroundColorMix = 0;
   }
 
-  drawRings();
+  drawShapes();
 
   // Check if it's time to play the sound
   if (millis() >= nextPlayTime) {
